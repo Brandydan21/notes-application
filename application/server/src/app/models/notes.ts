@@ -3,8 +3,6 @@ import { Model, DataTypes } from 'sequelize';
 import sequelize from '../database';
 import User from './users';
 
-
-
 class Note extends Model {
     public id!: number;
     public userId!: number;
