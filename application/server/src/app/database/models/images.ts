@@ -39,7 +39,9 @@ Image.init({
   }
 }, {
   tableName: 'images',
-  sequelize
+  sequelize,
+  timestamps: false 
+
 });
 
 export default Image;

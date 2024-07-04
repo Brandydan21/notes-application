@@ -29,7 +29,9 @@ Note.init({
     }
 }, {
     tableName: 'notes',
-    sequelize
+    sequelize,
+    timestamps: false 
+
 });
 
 export default Note;

@@ -29,7 +29,9 @@ User.init({
     }
   }, {
     tableName: 'users',
-    sequelize
+    sequelize,
+    timestamps: false 
+
 });
   
 export default User;
