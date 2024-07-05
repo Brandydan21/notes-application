@@ -1,8 +1,8 @@
 // src/models/index.ts
-import sequelize from '../database';
-import User from './users';
-import Image from './images';
-import Note from './notes';
+import sequelize from './database';
+import User from './models/users';
+import Image from './models/images';
+import Note from './models/notes';
 
 
 // Associations

@@ -1,6 +1,7 @@
 import express, {Express} from 'express';
 import dotenv from 'dotenv';
-import {sequelize} from './database/models';
+import {sequelize} from './database';
+import {userRouter, testRouter} from './routes'
 
 
 dotenv.config()
@@ -15,6 +16,12 @@ function sync_db(): void{
         console.error('Unable to synchronize the database:', err);
     });
 }
+
+function create_routes(app: Express){
+    app.use("/",testRouter);
+    app.use("/user", userRouter);
+    
+}
    
 
 export function create_app(): Express{
@@ -27,10 +34,11 @@ export function create_app(): Express{
     app.set('port', PORT);
 
     sync_db();
+    //parsing middleware
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
 
-    app.get('/', (req, res) => {
-        res.send('Hello, world!');
-    });
+    create_routes(app);
 
     return app;
 }
