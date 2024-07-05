@@ -19,7 +19,8 @@ const sequelize: Sequelize = new Sequelize(
     DATABASE_PASSWORD,
     {
         host: HOST,
-        dialect:'mysql'
+        dialect:'mysql',
+        logging: false,
     }
 );
 // Checks authenication 
