@@ -2,7 +2,7 @@ import express, {Express} from 'express';
 import dotenv from 'dotenv';
 import {sequelize} from './database';
 import {userRouter, testRouter} from './routes'
-
+import {cors} from 'cors';
 
 dotenv.config()
 
@@ -26,7 +26,7 @@ function create_routes(app: Express){
 
 export function create_app(): Express{
     const app: Express = express();
-
+    app.use(cors());
     const port_string: string | undefined =  process.env.PORT;
 
     const PORT: number = port_string ? parseInt(port_string, 10) : 3000;

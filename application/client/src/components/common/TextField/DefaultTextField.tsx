@@ -5,7 +5,7 @@ interface TextFieldProps {
     label :string;
     variant ?: 'filled' | 'outlined' | 'standard';
     type ?: "password"
-    onChange : (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange : (event: React.ChangeEvent<HTMLInputElement>) => void;
 
 
 }
