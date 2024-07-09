@@ -1,9 +1,11 @@
 import { Request, Response } from "express-serve-static-core";
 import { User } from "../database";
-import createUsers from '../dtos/createUsers';
+import UserDTO from '../dtos/UserDTO';
+import { generate_token } from "../utils";
 
-const signUp = async (req: Request<{},{},createUsers,{}>, res: Response) =>{
+const signUp = async (req: Request<{},{},UserDTO,{}>, res: Response) =>{
     try{
+        const new_user:UserDTO = req.body;
         const {first_name, last_name, username, email, password} = req.body;
 
         const existingUsername = await User.findAll({
@@ -29,8 +31,10 @@ const signUp = async (req: Request<{},{},createUsers,{}>, res: Response) =>{
         
         const newUser = await User.create({first_name: first_name, last_name: last_name, username: username, 
             email:email, password:password});
+        
+        const token: string = generate_token(new_user);
 
-        res.status(201).json({ message: 'User created successfully', user: newUser });
+        res.status(201).json({email: newUser.email, first_name: newUser.first_name, last_name:newUser.last_name, username: newUser.username, token: token});
 
     }catch(error){
         res.status(500).json({ error: 'Internal server error' });
