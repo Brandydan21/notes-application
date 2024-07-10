@@ -30,12 +30,12 @@ const signUp = async (req: Request<{},{},UserSignUpDTO,{}>, res: Response) =>{
             return res.status(400).json({ error: 'Username already exists' });
         }
         
-        const newUser = await User.create({first_name: first_name, last_name: last_name, username: username, 
+        const newUser: User = await User.create({first_name: first_name, last_name: last_name, username: username, 
             email:email, password:password});
         
-        const token: string = generate_token(new_user);
+        const token: string = generate_token(newUser);
 
-        res.status(201).json({email: newUser.email, first_name: newUser.first_name, last_name:newUser.last_name, username: newUser.username, token: token});
+        res.status(201).json({userId:newUser.id, email: newUser.email, first_name: newUser.first_name, last_name:newUser.last_name, username: newUser.username, token: token});
 
     }catch(error){
         res.status(500).json({ error: 'Internal server error' });
@@ -62,7 +62,7 @@ const login = async (req: Request<{},{},UserLoginDTO,{}>, res: Response) =>{
         if(existingUser){
             if(existingUser.password === password){
                 const token: string = generate_token(existingUser);
-                res.status(200).json({email: existingUser.email, first_name: existingUser.first_name, 
+                res.status(200).json({userId:existingUser.id,email: existingUser.email, first_name: existingUser.first_name, 
                     last_name:existingUser.last_name, username: existingUser.username, token: token});
             }
             else{

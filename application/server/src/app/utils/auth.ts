@@ -1,7 +1,10 @@
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv';
+import { Request, Response, NextFunction } from "express";
 import {UserSignUpDTO} from "../dtos/UserDTO";
-
+import { User } from "../database";
+import { AddNoteDTO } from "../dtos/NotesDTO";
+import { JwtPayload } from "jsonwebtoken";
 
 
 dotenv.config()
@@ -10,12 +13,39 @@ const SECRET_KEY: string = process.env.SECRET_KEY|| "12345";
 
 
 
-const generate_token = (user: UserSignUpDTO): string =>{
+const generate_token = (user: User): string =>{
 
-    return jwt.sign({ email: user.email, username: user.username, first_name:user.first_name,
+    return jwt.sign({userId: user.id, email: user.email, username: user.username, first_name:user.first_name,
         last_name: user.last_name}, SECRET_KEY, { expiresIn: '1h' });
 
 }
 
+const authenticate_token = (req:Request<{},{},AddNoteDTO>, res: Response, next: NextFunction) => {
+    const authHeader = req.headers['authorization'];
+    if(authHeader === undefined){
+        return res.status(403).send({ message: 'No token provided!' });
+    }
 
-export {generate_token}
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token,SECRET_KEY, (err,payload)=>{
+        
+        if(err){
+            return res.status(403).send({ message: 'Invalid Token' });
+        }
+
+        if(payload === undefined){
+            return res.status(403).send({ message: 'Invalid Token' });
+   
+        }
+        const jpayload: JwtPayload = payload as JwtPayload;
+
+        if(jpayload.userId !== req.body.userId){
+            return res.status(403).send({ message: 'Invalid Token' });
+        }
+
+        next();
+    });
+}
+
+
+export {generate_token,authenticate_token}

@@ -1,7 +1,7 @@
 import express, {Express} from 'express';
 import dotenv from 'dotenv';
 import {sequelize} from './database';
-import {userRouter, testRouter} from './routes'
+import {userRouter, testRouter, noteRoute} from './routes'
 import cors from "cors";
 
 dotenv.config()
@@ -20,6 +20,7 @@ function sync_db(): void{
 function create_routes(app: Express){
     app.use("/",testRouter);
     app.use("/user", userRouter);
+    app.use("/note", noteRoute);
     
 }
    

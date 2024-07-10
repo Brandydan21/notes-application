@@ -1,5 +1,5 @@
 import {User} from './users'
-import {SignUpData, ErrorResponse} from './signIn'
+import {SignUpData, ErrorResponse, signInData} from './signIn'
 
 
-export type {User,SignUpData, ErrorResponse};
+export type {User,SignUpData, ErrorResponse, signInData};

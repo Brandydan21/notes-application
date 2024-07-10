@@ -64,6 +64,7 @@ const SignUpPage: React.FC = () => {
             <div>
                 <div>{user.first_name}</div>
                 <div>{user.token}</div>
+                <div>{user.userId}</div>
                 <DefaultButton label='log out' onClick={logout}/>
             </div>
 

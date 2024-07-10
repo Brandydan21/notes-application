@@ -5,8 +5,6 @@ interface UserSignUpDTO{
     email: string, 
     password: string
 };
-
-
 interface UserLoginDTO{
     email_username:string;
     password:string;

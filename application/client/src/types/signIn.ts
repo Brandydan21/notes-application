@@ -6,8 +6,13 @@ interface SignUpData {
     password: string;
 }
 
+interface signInData{
+    email_username: string;
+    password: string;
+}
+
 interface ErrorResponse {
     error: string;
 }
 
-export type {SignUpData, ErrorResponse};
+export type {SignUpData, ErrorResponse, signInData};

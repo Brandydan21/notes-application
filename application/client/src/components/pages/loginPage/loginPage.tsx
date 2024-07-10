@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { DefaultTextField } from '../../common/TextField';
 import { DefaultButton } from '../../common/Button';
 import axios, {AxiosResponse, AxiosError} from 'axios';
-import {SignUpData, ErrorResponse,User} from '../../../types'
+import {SignUpData, ErrorResponse,User, signInData} from '../../../types'
 import {useAuth} from '../../../context/AuthContext'
 
 
@@ -22,33 +22,32 @@ const LoginPage: React.FC = () => {
         });
     };
 
-
     const submitLogin  = () =>{
-        if (formData.confirmPassword !== formData.password){
-            alert("Passwords are not the same");
-            setFormData(prevState => ({
-                ...prevState,
-                password: '',
-                confirmPassword: ''
-            }));
+        for (const key in formData) {
+            if (formData.hasOwnProperty(key)) {
+                if (formData[key as keyof typeof formData].trim() === "") {
+                    alert(`${key} cannot be empty`);
+                    return;
+                }
+            
+            }
         }
-        else{
-            const signUpData: SignUpData = {"first_name":formData.firstName,"last_name":formData.lastName, "username":formData.username, "email":formData.email,"password":formData.password}
-            axios.post('http://localhost:3000/user/sign-up', signUpData)
-                .then((response: AxiosResponse<User> )=> {
-                    const created_user: User = response.data;
-                    signIn(created_user);
-                    window.location.reload();
-                })
-                .catch((error: AxiosError<ErrorResponse>)=> {
-                    if (error.response && error.response.data) {
-                        alert(error.response.data.error);
-                        
-                    } else {
-                        alert('An unexpected error occurred');
-                    }
-                });
-        }  
+        const loginData: signInData = {"email_username":formData.email_username,"password":formData.password}
+        axios.post('http://localhost:3000/user/login', loginData)
+            .then((response: AxiosResponse<User> )=> {
+                const user: User = response.data;
+                signIn(user);
+                window.location.reload();
+            })
+            .catch((error: AxiosError<ErrorResponse>)=> {
+                if (error.response && error.response.data) {
+                    alert(error.response.data.error);
+                    
+                } else {
+                    alert('An unexpected error occurred');
+                }
+            });
+        
     }
     
     const logout = () =>{
@@ -60,6 +59,7 @@ const LoginPage: React.FC = () => {
             <div>
                 <div>{user.first_name}</div>
                 <div>{user.token}</div>
+                <div>{user.userId}</div>
                 <DefaultButton label='log out' onClick={logout}/>
             </div>
 
@@ -68,16 +68,12 @@ const LoginPage: React.FC = () => {
     else{
         return (
             <div>
-                <DefaultTextField id='firstName' label='First Name' variant='standard' onChange={handleInputChange} />
-                <DefaultTextField id='lastName' label='Last Name' variant='standard' onChange={handleInputChange}/>
-                <DefaultTextField id='email' label='Email' variant='standard' onChange={handleInputChange} />
-                <DefaultTextField id='username' label='Username' variant='standard' onChange={handleInputChange} />
+                <DefaultTextField id='email_username' label='Email or Username' variant='standard' onChange={handleInputChange} />
                 <DefaultTextField id='password' label='Password' variant='standard' onChange={handleInputChange} type='password'/>
-                <DefaultTextField id='confirmPassword' label='Confirm Password' variant='standard' onChange={handleInputChange} type='password'/>
                 <DefaultButton label='Submit' onClick={submitLogin}/>
             </div>
             );
     }
 };
 
-export default SignUpPage;
+export default LoginPage;
