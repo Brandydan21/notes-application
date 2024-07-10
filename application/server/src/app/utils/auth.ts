@@ -15,7 +15,7 @@ const SECRET_KEY: string = process.env.SECRET_KEY|| "12345";
 
 const generate_token = (user: User): string =>{
 
-    return jwt.sign({userId: user.id, email: user.email, username: user.username, first_name:user.first_name,
+    return jwt.sign({userId: user.id.toString(), email: user.email, username: user.username, first_name:user.first_name,
         last_name: user.last_name}, SECRET_KEY, { expiresIn: '1h' });
 
 }
@@ -30,17 +30,17 @@ const authenticate_token = (req:Request<{},{},AddNoteDTO>, res: Response, next: 
     jwt.verify(token,SECRET_KEY, (err,payload)=>{
         
         if(err){
-            return res.status(403).send({ message: 'Invalid Token' });
+            return res.status(403).send({ message: 'Invalid Token1' });
         }
 
         if(payload === undefined){
-            return res.status(403).send({ message: 'Invalid Token' });
+            return res.status(403).send({ message: 'Invalid Token2' });
    
         }
         const jpayload: JwtPayload = payload as JwtPayload;
 
         if(jpayload.userId !== req.body.userId){
-            return res.status(403).send({ message: 'Invalid Token' });
+            return res.status(403).send({ message: 'Invalid Token3' });
         }
 
         next();

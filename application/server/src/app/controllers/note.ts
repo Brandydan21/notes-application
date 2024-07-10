@@ -10,8 +10,8 @@ const add_note = async(req: Request<{},{},AddNoteDTO>, res: Response) =>{
         const newNote: Note = await Note.create({userId:userId, content:note_content});
         res.status(201).json({note:newNote});
 
-    }catch{
-        res.status(500).json({ error: 'Internal server error' });
+    }catch(err){
+        res.status(500).json({ error: err });
     }
     
     
