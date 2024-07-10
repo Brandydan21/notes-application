@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv';
-import UserDTO from "../dtos/UserDTO";
+import {UserSignUpDTO} from "../dtos/UserDTO";
 
 
 
@@ -10,7 +10,7 @@ const SECRET_KEY: string = process.env.SECRET_KEY|| "12345";
 
 
 
-const generate_token = (user: UserDTO): string =>{
+const generate_token = (user: UserSignUpDTO): string =>{
 
     return jwt.sign({ email: user.email, username: user.username, first_name:user.first_name,
         last_name: user.last_name}, SECRET_KEY, { expiresIn: '1h' });

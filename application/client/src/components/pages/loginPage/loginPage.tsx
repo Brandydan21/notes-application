@@ -6,16 +6,12 @@ import {SignUpData, ErrorResponse,User} from '../../../types'
 import {useAuth} from '../../../context/AuthContext'
 
 
-const SignUpPage: React.FC = () => {
+const LoginPage: React.FC = () => {
     const { user, signIn, signOut } = useAuth();
 
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        username: '',
+        email_username: '',
         password: '',
-        confirmPassword: ''
     });
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

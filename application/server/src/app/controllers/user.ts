@@ -1,11 +1,12 @@
 import { Request, Response } from "express-serve-static-core";
 import { User } from "../database";
-import UserDTO from '../dtos/UserDTO';
+import {UserSignUpDTO, UserLoginDTO} from '../dtos/UserDTO';
 import { generate_token } from "../utils";
+import { Op } from "sequelize";
 
-const signUp = async (req: Request<{},{},UserDTO,{}>, res: Response) =>{
+const signUp = async (req: Request<{},{},UserSignUpDTO,{}>, res: Response) =>{
     try{
-        const new_user:UserDTO = req.body;
+        const new_user:UserSignUpDTO = req.body;
         const {first_name, last_name, username, email, password} = req.body;
 
         const existingUsername = await User.findAll({
@@ -43,4 +44,41 @@ const signUp = async (req: Request<{},{},UserDTO,{}>, res: Response) =>{
 }
 
 
-export {signUp};
+const login = async (req: Request<{},{},UserLoginDTO,{}>, res: Response) =>{
+    try{
+        const new_user:UserLoginDTO = req.body;
+        const {email_username, password} = req.body;
+
+        const existingUser: User | null = await User.findOne({
+            where: {
+                [Op.or]: [
+                    { username: email_username },
+                    { email: email_username }
+                ]
+                
+            }
+        });
+
+        if(existingUser){
+            if(existingUser.password === password){
+                const token: string = generate_token(existingUser);
+                res.status(200).json({email: existingUser.email, first_name: existingUser.first_name, 
+                    last_name:existingUser.last_name, username: existingUser.username, token: token});
+            }
+            else{
+                res.status(404).json({ error: 'Password is incorrect for user' });  
+            }
+           
+        }else{
+            res.status(404).json({ error: 'Username or Email not found' });  
+
+        }
+        
+    }catch(error){
+        res.status(500).json({ error: 'Internal server error' });
+    }
+
+}
+
+
+export {signUp, login};

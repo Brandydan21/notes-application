@@ -1,5 +1,5 @@
 import { test } from "./test";
-import { signUp } from "./user";
+import { signUp, login} from "./user";
 
 
-export {test, signUp}
+export {test, signUp,login}
