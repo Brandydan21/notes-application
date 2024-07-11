@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { DefaultTextField } from '../../common/TextField';
 import { DefaultButton } from '../../common/Button';
 import axios, {AxiosResponse, AxiosError} from 'axios';
-import {SignUpData, ErrorResponse,User, signInData} from '../../../types'
+import { ErrorResponse,User, signInData} from '../../../types'
 import {useAuth} from '../../../context/AuthContext'
 
 
@@ -32,7 +32,7 @@ const LoginPage: React.FC = () => {
             
             }
         }
-        const loginData: signInData = {"email_username":formData.email_username,"password":formData.password}
+        const loginData: signInData = {"email_username":formData.email_username,"password":formData.password};
         axios.post('http://localhost:3000/user/login', loginData)
             .then((response: AxiosResponse<User> )=> {
                 const user: User = response.data;

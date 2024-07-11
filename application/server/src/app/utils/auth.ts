@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import { Request, Response, NextFunction } from "express";
 import {UserSignUpDTO} from "../dtos/UserDTO";
 import { User } from "../database";
-import { AddNoteDTO } from "../dtos/NotesDTO";
+import { AddNoteDTO, AuthReqDTO} from "../dtos/NotesDTO";
 import { JwtPayload } from "jsonwebtoken";
 
 
@@ -20,27 +20,27 @@ const generate_token = (user: User): string =>{
 
 }
 
-const authenticate_token = (req:Request<{},{},AddNoteDTO>, res: Response, next: NextFunction) => {
+const authenticate_token = (req:Request<{},{},AuthReqDTO>, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];
     if(authHeader === undefined){
         return res.status(403).send({ message: 'No token provided!' });
     }
 
     const token = authHeader.split(' ')[1];
-    jwt.verify(token,SECRET_KEY, (err,payload)=>{
+    jwt.verify(token, SECRET_KEY, (err,payload)=>{
         
         if(err){
-            return res.status(403).send({ message: 'Invalid Token1' });
+            return res.status(403).send({ error: 'Invalid Token1' });
         }
 
         if(payload === undefined){
-            return res.status(403).send({ message: 'Invalid Token2' });
+            return res.status(403).send({ error: 'Invalid Token2' });
    
         }
         const jpayload: JwtPayload = payload as JwtPayload;
 
-        if(jpayload.userId !== req.body.userId){
-            return res.status(403).send({ message: 'Invalid Token3' });
+        if(jpayload.userId.toString() !== req.body.userId.toString()){
+            return res.status(403).send({ error: `Invalid Token3`});
         }
 
         next();

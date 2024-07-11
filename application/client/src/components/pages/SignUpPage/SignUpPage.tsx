@@ -28,6 +28,16 @@ const SignUpPage: React.FC = () => {
 
 
     const submitLogin  = () =>{
+        for (const key in formData) {
+            if (formData.hasOwnProperty(key)) {
+                if (formData[key as keyof typeof formData].trim() === "") {
+                    alert(`${key} cannot be empty`);
+                    return;
+                }
+            
+            }
+        }
+        
         if (formData.confirmPassword !== formData.password){
             alert("Passwords are not the same");
             setFormData(prevState => ({

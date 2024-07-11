@@ -3,5 +3,12 @@ interface AddNoteDTO{
     note_content:string;
     
 }
+interface AuthReqDTO{
+    userId:string;    
 
-export {AddNoteDTO};
+}
+interface FetchNoteDTO{
+    userId:string;
+}
+
+export {AddNoteDTO,FetchNoteDTO,AuthReqDTO};
