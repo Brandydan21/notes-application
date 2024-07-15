@@ -26,7 +26,9 @@ const HomePage: React.FC = () => {
   const logout = () =>{
     signOut();
   }
-  
+  const refreshToken = () =>{
+    
+  }
   const submitNote = () =>{        
     if(user!== null){
       const{ userId,email,first_name,last_name,username,token } = user;
@@ -54,6 +56,7 @@ const HomePage: React.FC = () => {
 
 
 if(user !== null){
+
   return(
       <div>
           <DefaultTextField id="note" label='Note Contents' onChange={handleInputChange} ></DefaultTextField>

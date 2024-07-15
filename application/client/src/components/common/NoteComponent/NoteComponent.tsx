@@ -53,6 +53,29 @@ const NoteComponent: React.FC<NoteComponent> = ({noteId, note_content}) =>{
           }
     }
 
+    const deleteNote = async () =>{
+        if(user!== null){
+            const{ userId,token } = user;
+            const headers = {headers:{'Authorization': `Bearer ${token}`}};
+            console.log(`${userId} `)
+            axios.delete(`http://localhost:3000/note/delete/${userId}/${noteId}`, headers)
+             .then(()=>{
+                window.location.reload();
+            }).catch((error:AxiosError<ErrorResponse>)=>
+            {
+                if (error.response && error.response.data){
+                alert(error.response.data.error);
+                } else {
+                alert('An unexpected error occurred');
+                }
+                logout();
+            });     
+          }else{
+            logout()
+            window.location.reload();
+          }
+    }
+
     return(
         <Card sx={{ minWidth: 275 }}>
         <CardContent>
@@ -60,6 +83,7 @@ const NoteComponent: React.FC<NoteComponent> = ({noteId, note_content}) =>{
         </CardContent>
         <CardActions>
           <DefaultButton label='Update' onClick={modifyNote}/>
+          <DefaultButton label='Delete' onClick={deleteNote}/>
         </CardActions>
       </Card>
     );

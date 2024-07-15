@@ -17,4 +17,9 @@ interface UpdateNoteDTO{
     update_content:string;
 }
 
-export {AddNoteDTO,FetchNoteDTO,AuthReqDTO,UpdateNoteDTO};
+interface DeleteNoteDTO{
+    userId: string;
+    noteId: string;
+}
+
+export {AddNoteDTO,FetchNoteDTO,AuthReqDTO,UpdateNoteDTO, DeleteNoteDTO};

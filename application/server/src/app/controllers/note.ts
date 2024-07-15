@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { AddNoteDTO, FetchNoteDTO, UpdateNoteDTO } from "../dtos/NotesDTO";
+import { AddNoteDTO, FetchNoteDTO, UpdateNoteDTO, DeleteNoteDTO } from "../dtos/NotesDTO";
 import { Note } from "../database";
 
 
@@ -60,4 +60,33 @@ const update_note = async (req: Request<{},{},UpdateNoteDTO>, res:Response) =>{
     }
 }
 
-export {add_note,fetch_all_notes,update_note};
+const delete_note = async (req: Request<{noteId:string,userId:string},{},DeleteNoteDTO>, res:Response) =>{
+    try{
+        const noteId = req.params.noteId;
+        const userId = req.params.userId;
+
+        const note_to_delete = await Note.findOne({
+            where: {
+                id: noteId
+            }
+        })
+    
+        if (note_to_delete === null){
+            res.status(500).json({error:'Note does not exist'});
+        }else{
+            if(note_to_delete.userId.toString() === userId){
+                note_to_delete.destroy()
+                res.status(200).json({ message: 'Note deleted successfully' });
+            }else{
+                res.status(500).json({error:`Token user is not the same ${userId}, ${note_to_delete.userId.toString()}` });
+            }
+        }
+    
+    }catch{
+        res.status(500).json({error:'Internal server error'});
+
+    }
+    
+}
+
+export {add_note,fetch_all_notes,update_note, delete_note};

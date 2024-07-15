@@ -26,6 +26,10 @@ const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
         localStorage.removeItem('user');
         setUser(null);
     };
+    
+    const refreshToken = (user: User) =>{
+
+    }
 
     return (
         <AuthContext.Provider value={{ user, signIn, signOut }}>

@@ -80,5 +80,18 @@ const login = async (req: Request<{},{},UserLoginDTO,{}>, res: Response) =>{
 
 }
 
+const refreshToken = (req: Request<{},{},User>, res:Response) =>{
+    try{
+        const refreshUser:User = req.body;
+        const token: string = generate_token(refreshUser);
+    
+        res.status(201).json({userId:refreshUser.id, email: refreshUser.email, first_name: refreshUser.first_name, last_name:refreshUser.last_name, username: refreshUser.username, token: token});
+    
+    }catch{
+        
+    }
+   
+}
+
 
 export {signUp, login};
