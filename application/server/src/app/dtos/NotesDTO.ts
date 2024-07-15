@@ -11,4 +11,10 @@ interface FetchNoteDTO{
     userId:string;
 }
 
-export {AddNoteDTO,FetchNoteDTO,AuthReqDTO};
+interface UpdateNoteDTO{
+    userId:string;
+    noteId:string;
+    update_content:string;
+}
+
+export {AddNoteDTO,FetchNoteDTO,AuthReqDTO,UpdateNoteDTO};

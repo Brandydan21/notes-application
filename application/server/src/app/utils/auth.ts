@@ -20,8 +20,10 @@ const generate_token = (user: User): string =>{
 
 }
 
-const authenticate_token = (req:Request<{},{},AuthReqDTO>, res: Response, next: NextFunction) => {
+const authenticate_token = (req:Request<{userId:string},{},AuthReqDTO>, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];
+    const current_userId = req.params.userId || req.body.userId;
+
     if(authHeader === undefined){
         return res.status(403).send({ message: 'No token provided!' });
     }
@@ -38,11 +40,12 @@ const authenticate_token = (req:Request<{},{},AuthReqDTO>, res: Response, next: 
    
         }
         const jpayload: JwtPayload = payload as JwtPayload;
-
-        if(jpayload.userId.toString() !== req.body.userId.toString()){
+        
+        if(jpayload.userId.toString() !== current_userId.toString()){
             return res.status(403).send({ error: `Invalid Token3`});
         }
-
+    
+        
         next();
     });
 }

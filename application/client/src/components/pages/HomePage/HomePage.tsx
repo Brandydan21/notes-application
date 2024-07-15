@@ -3,9 +3,10 @@ import {useAuth} from '../../../context/AuthContext'
 import { User } from '../../../types';
 import { DefaultButton } from '../../common/Button';
 import { DefaultTextField } from '../../common/TextField';
-import { LoginPage } from '../LoginPage';
+import { LoginPage } from '../../layout/Login';
 import axios, {AxiosResponse, AxiosError} from 'axios';
 import { ErrorResponse } from '../../../types';
+import Contents from '../../layout/Contents/Contents';
 const HomePage: React.FC = () => {
 
   const {user, signOut } = useAuth();
@@ -58,6 +59,7 @@ if(user !== null){
           <DefaultTextField id="note" label='Note Contents' onChange={handleInputChange} ></DefaultTextField>
           <DefaultButton label='Add Note' onClick={submitNote}/><br/>
           <DefaultButton label='log out' onClick={logout}/>
+          <Contents></Contents>
       </div>
 
   );
