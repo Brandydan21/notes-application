@@ -2,6 +2,8 @@ import { useState, useEffect, createContext, useContext}  from "react";
 import React from "react";
 import { User } from "../types";
 import { authContextType } from "../types/auth";
+import axios, {AxiosResponse, AxiosError}from 'axios';
+import { ErrorResponse } from "../types";
 
 
 export const AuthContext = createContext<authContextType | null>(null);
@@ -13,8 +15,19 @@ const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     useEffect(() => {
         const userString = localStorage.getItem('user');
         if (userString) {
-          setUser(JSON.parse(userString));
-        }
+          const current_user:User = JSON.parse(userString);
+          const {userId, token} = current_user;
+          const headers = {headers:{'Authorization': `Bearer ${token}`}};
+          axios.get(`http://localhost:3000/user/refresh/${userId}`,headers)
+          .then((response: AxiosResponse<User> )=> {
+            const user: User = response.data;
+            console.log(user)
+            signIn(user);
+        }).catch(()=>{
+          alert("Token has expired");
+          signOut();
+        });
+    }
     }, []);
 
     const signIn = (user: User) => {
@@ -27,9 +40,7 @@ const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
         setUser(null);
     };
     
-    const refreshToken = (user: User) =>{
-
-    }
+    
 
     return (
         <AuthContext.Provider value={{ user, signIn, signOut }}>

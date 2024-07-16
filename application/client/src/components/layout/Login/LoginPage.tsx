@@ -4,9 +4,11 @@ import { DefaultButton } from '../../common/Button';
 import axios, {AxiosResponse, AxiosError} from 'axios';
 import { ErrorResponse,User, signInData} from '../../../types'
 import {useAuth} from '../../../context/AuthContext'
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginPage: React.FC = () => {
+    const navigate =useNavigate();
     const { user, signIn, signOut } = useAuth();
 
     const [formData, setFormData] = useState({
@@ -49,6 +51,9 @@ const LoginPage: React.FC = () => {
             });
         
     }
+    const navToSignUp = () =>{
+        navigate('/sign-up');
+    }
     
     const logout = () =>{
         signOut();
@@ -70,7 +75,10 @@ const LoginPage: React.FC = () => {
             <div>
                 <DefaultTextField id='email_username' label='Email or Username' variant='standard' onChange={handleInputChange} />
                 <DefaultTextField id='password' label='Password' variant='standard' onChange={handleInputChange} type='password'/>
-                <DefaultButton label='Submit' onClick={submitLogin}/>
+                <DefaultButton label='Log In' onClick={submitLogin}/>
+                <DefaultButton label='Sign Up' onClick={navToSignUp}/>
+
+
             </div>
             );
     }

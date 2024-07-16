@@ -23,7 +23,6 @@ const Contents: React.FC = () =>{
             const headers = {headers:{'Authorization': `Bearer ${token}`}};
             axios.get(`http://localhost:3000/note/${userId}`,headers)
              .then((response:AxiosResponse<contentData>)=>{
-                console.log(response.data.notes)
             setNotes(response.data.notes)
             notes.map(note=>{
                 

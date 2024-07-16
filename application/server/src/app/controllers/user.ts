@@ -75,23 +75,33 @@ const login = async (req: Request<{},{},UserLoginDTO,{}>, res: Response) =>{
         }
         
     }catch(error){
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Internal server error333' });
     }
 
 }
 
-const refreshToken = (req: Request<{},{},User>, res:Response) =>{
+const refreshToken = async (req: Request, res:Response) =>{
     try{
-        const refreshUser:User = req.body;
-        const token: string = generate_token(refreshUser);
-    
-        res.status(201).json({userId:refreshUser.id, email: refreshUser.email, first_name: refreshUser.first_name, last_name:refreshUser.last_name, username: refreshUser.username, token: token});
-    
+        const refreshUserId: string = req.params.userId;
+        const refreshUser: User | null= await User.findOne({
+            where:{
+                id:refreshUserId
+            }
+        })
+        if(refreshUser !==null){
+            const token:string = generate_token(refreshUser);
+            res.status(201).json({userId:refreshUser.id, email: refreshUser.email, first_name: refreshUser.first_name, last_name:refreshUser.last_name, username: refreshUser.username, token: token});
+
+        }
+        else{
+            res.status(500).json({error:'Token has expired'});
+        }
+
     }catch{
-        
+        res.status(500).json({ error: 'Internal server error' });
     }
    
 }
 
 
-export {signUp, login};
+export {signUp, login,refreshToken};

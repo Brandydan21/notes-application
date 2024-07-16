@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import {useAuth} from '../../../context/AuthContext'
-import { User } from '../../../types';
 import { DefaultButton } from '../../common/Button';
 import { DefaultTextField } from '../../common/TextField';
 import { LoginPage } from '../../layout/Login';
-import axios, {AxiosResponse, AxiosError} from 'axios';
+import axios, { AxiosError} from 'axios';
 import { ErrorResponse } from '../../../types';
 import Contents from '../../layout/Contents/Contents';
 const HomePage: React.FC = () => {
@@ -27,7 +26,7 @@ const HomePage: React.FC = () => {
     signOut();
   }
   const refreshToken = () =>{
-    
+
   }
   const submitNote = () =>{        
     if(user!== null){

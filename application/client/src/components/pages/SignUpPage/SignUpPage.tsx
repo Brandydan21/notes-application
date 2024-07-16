@@ -1,13 +1,22 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import { DefaultTextField } from '../../common/TextField';
 import { DefaultButton } from '../../common/Button';
 import axios, {AxiosResponse, AxiosError} from 'axios';
 import {SignUpData, ErrorResponse,User} from '../../../types'
 import {useAuth} from '../../../context/AuthContext'
+import { useNavigate } from 'react-router-dom';
 
 
 const SignUpPage: React.FC = () => {
+
     const { user, signIn, signOut } = useAuth();
+    const navigate = useNavigate(); // Ensure useNavigate is correctly imported and used
+    
+    useEffect(() => {
+        if (user) {
+            navigate('/');
+        }
+    }, [user, navigate]);
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -64,35 +73,29 @@ const SignUpPage: React.FC = () => {
                 });
         }  
     }
+    const navToLogin = () =>{
+        navigate('/');
+    }
     
     const logout = () =>{
         signOut();
     }
     
-    if(user !== null){
-        return(
-            <div>
-                <div>{user.first_name}</div>
-                <div>{user.token}</div>
-                <div>{user.userId}</div>
-                <DefaultButton label='log out' onClick={logout}/>
-            </div>
+   
+    return (
+        <div>
+            <DefaultTextField id='firstName' label='First Name' variant='standard' onChange={handleInputChange} />
+            <DefaultTextField id='lastName' label='Last Name' variant='standard' onChange={handleInputChange}/>
+            <DefaultTextField id='email' label='Email' variant='standard' onChange={handleInputChange} />
+            <DefaultTextField id='username' label='Username' variant='standard' onChange={handleInputChange} />
+            <DefaultTextField id='password' label='Password' variant='standard' onChange={handleInputChange} type='password'/>
+            <DefaultTextField id='confirmPassword' label='Confirm Password' variant='standard' onChange={handleInputChange} type='password'/>
+            <DefaultButton label='Sign Up' onClick={submitLogin}/>
+            <DefaultButton label=' Back to Log In' onClick={navToLogin}/>
 
+        </div>
         );
-    }
-    else{
-        return (
-            <div>
-                <DefaultTextField id='firstName' label='First Name' variant='standard' onChange={handleInputChange} />
-                <DefaultTextField id='lastName' label='Last Name' variant='standard' onChange={handleInputChange}/>
-                <DefaultTextField id='email' label='Email' variant='standard' onChange={handleInputChange} />
-                <DefaultTextField id='username' label='Username' variant='standard' onChange={handleInputChange} />
-                <DefaultTextField id='password' label='Password' variant='standard' onChange={handleInputChange} type='password'/>
-                <DefaultTextField id='confirmPassword' label='Confirm Password' variant='standard' onChange={handleInputChange} type='password'/>
-                <DefaultButton label='Submit' onClick={submitLogin}/>
-            </div>
-            );
-    }
+    
 };
 
 export default SignUpPage;
