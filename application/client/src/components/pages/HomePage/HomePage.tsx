@@ -58,6 +58,7 @@ if(user !== null){
 
   return(
       <div>
+          <p>name: {user.first_name} username:{user.username}</p>
           <DefaultTextField id="note" label='Note Contents' onChange={handleInputChange} ></DefaultTextField>
           <DefaultButton label='Add Note' onClick={submitNote}/><br/>
           <DefaultButton label='log out' onClick={logout}/>

@@ -16,7 +16,7 @@ const SECRET_KEY: string = process.env.SECRET_KEY|| "12345";
 const generate_token = (user: User): string =>{
 
     return jwt.sign({userId: user.id.toString(), email: user.email, username: user.username, first_name:user.first_name,
-        last_name: user.last_name}, SECRET_KEY, { expiresIn: '20s' });
+        last_name: user.last_name}, SECRET_KEY, { expiresIn: '1h' });
 
 }
 
