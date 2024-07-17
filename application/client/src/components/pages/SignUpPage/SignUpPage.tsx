@@ -84,6 +84,7 @@ const SignUpPage: React.FC = () => {
    
     return (
         <div>
+            <h1>Sign Up</h1>
             <DefaultTextField id='firstName' label='First Name' variant='standard' onChange={handleInputChange} />
             <DefaultTextField id='lastName' label='Last Name' variant='standard' onChange={handleInputChange}/>
             <DefaultTextField id='email' label='Email' variant='standard' onChange={handleInputChange} />

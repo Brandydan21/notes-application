@@ -6,6 +6,9 @@ import { LoginPage } from '../../layout/Login';
 import axios, { AxiosError} from 'axios';
 import { ErrorResponse } from '../../../types';
 import Contents from '../../layout/Contents/Contents';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 const HomePage: React.FC = () => {
 
   const {user, signOut } = useAuth();
@@ -25,9 +28,7 @@ const HomePage: React.FC = () => {
   const logout = () =>{
     signOut();
   }
-  const refreshToken = () =>{
-
-  }
+  
   const submitNote = () =>{        
     if(user!== null){
       const{ userId,email,first_name,last_name,username,token } = user;
@@ -69,7 +70,13 @@ if(user !== null){
 }else{
   return (
       <div>
+        <Typography className='login_typography'>Login</Typography>
+        <Container>
+        <Box>
           <LoginPage></LoginPage>
+        </Box>
+        
+        </Container>
       </div>
       );
   }

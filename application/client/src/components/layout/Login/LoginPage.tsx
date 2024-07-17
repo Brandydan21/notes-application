@@ -5,6 +5,8 @@ import axios, {AxiosResponse, AxiosError} from 'axios';
 import { ErrorResponse,User, signInData} from '../../../types'
 import {useAuth} from '../../../context/AuthContext'
 import { useNavigate } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 
 const LoginPage: React.FC = () => {
@@ -73,8 +75,8 @@ const LoginPage: React.FC = () => {
     else{
         return (
             <div>
-                <h1>NOTES</h1>
-                <DefaultTextField id='email_username' label='Email or Username' variant='standard' onChange={handleInputChange} />
+                <Typography>Hi</Typography>
+                <DefaultTextField id='email_username' label='Email or Username' variant='standard' onChange={handleInputChange}/>
                 <DefaultTextField id='password' label='Password' variant='standard' onChange={handleInputChange} type='password'/>
                 <DefaultButton label='Log In' onClick={submitLogin}/>
                 <DefaultButton label='Sign Up' onClick={navToSignUp}/>
