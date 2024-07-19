@@ -70,7 +70,6 @@ if(user !== null){
 }else{
   return (
       <div>
-        <Typography className='login_typography'>Login</Typography>
         <Container>
         <Box>
           <LoginPage></LoginPage>

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
+
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { DefaultTextField } from '../TextField';
@@ -10,6 +8,14 @@ import { DefaultButton } from '../Button';
 import { useAuth } from "../../../context/AuthContext";
 import axios, {AxiosResponse, AxiosError} from 'axios';
 import { ErrorResponse } from "../../../types";
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Divider from '@mui/material/Divider';
+
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 
 
 interface NoteComponent{
@@ -77,15 +83,37 @@ const NoteComponent: React.FC<NoteComponent> = ({noteId, note_content}) =>{
     }
 
     return(
-        <Card sx={{ minWidth: 275 }}>
-        <CardContent>
-                <DefaultTextField id={noteId.toString()} label={note} variant='standard' onChange={handleNoteChange} />
-        </CardContent>
-        <CardActions>
-          <DefaultButton label='Update' onClick={modifyNote}/>
-          <DefaultButton label='Delete' onClick={deleteNote}/>
-        </CardActions>
-      </Card>
+        <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '300px', // Set the desired height
+          width: '800px',  // Set the desired width
+          gap: 1, // Add spacing between items
+        }}
+      >
+        <TextField
+          id={noteId.toString()}
+          label={note}
+          variant='outlined'
+          onChange={handleNoteChange}
+          multiline
+          rows={9}
+        />
+        <Box sx={{display: 'flex', gap:2,}}>
+        <DefaultButton
+          label='Update'
+          onClick={modifyNote}
+          // Make the button expand to fill available space
+        />
+        <DefaultButton
+          label='Delete'
+          onClick={deleteNote}
+        // Make the button expand to fill available space
+        />
+        </Box>
+      <Divider />
+      </Box>
     );
 }
 

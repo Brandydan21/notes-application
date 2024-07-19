@@ -7,7 +7,9 @@ import {useAuth} from '../../../context/AuthContext'
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 
+import {Paper} from'@mui/material';
 
 const LoginPage: React.FC = () => {
     const navigate =useNavigate();
@@ -75,11 +77,26 @@ const LoginPage: React.FC = () => {
     else{
         return (
             <div>
-                <Typography>Hi</Typography>
-                <DefaultTextField id='email_username' label='Email or Username' variant='standard' onChange={handleInputChange}/>
-                <DefaultTextField id='password' label='Password' variant='standard' onChange={handleInputChange} type='password'/>
-                <DefaultButton label='Log In' onClick={submitLogin}/>
-                <DefaultButton label='Sign Up' onClick={navToSignUp}/>
+            <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100vh',
+                flexDirection:'column' }}>
+            
+                    <Typography sx={{p:3}}variant="h3">Notes</Typography>
+                    <Box sx={{p:3, display: 'flex', flexDirection:'column', gap: 1,}}>
+                    <DefaultTextField id='email_username' label='Email or Username' variant='outlined' onChange={handleInputChange}/>
+
+                    <DefaultTextField id='password' label='Password' variant='outlined' onChange={handleInputChange} type='password'/>
+        
+                    <DefaultButton label='Log In' onClick={submitLogin}/>
+                </Box>
+                <Link href="http://localhost:3006/sign-up" variant="body2" sx={{p:2}}>
+                  {"Sign Up"}
+                </Link>
+        
+            </Box>
             </div>
             );
     }

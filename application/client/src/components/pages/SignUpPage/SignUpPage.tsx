@@ -5,7 +5,9 @@ import axios, {AxiosResponse, AxiosError} from 'axios';
 import {SignUpData, ErrorResponse,User} from '../../../types'
 import {useAuth} from '../../../context/AuthContext'
 import { useNavigate } from 'react-router-dom';
-
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 
 const SignUpPage: React.FC = () => {
 
@@ -84,16 +86,27 @@ const SignUpPage: React.FC = () => {
    
     return (
         <div>
-            <h1>Sign Up</h1>
-            <DefaultTextField id='firstName' label='First Name' variant='standard' onChange={handleInputChange} />
-            <DefaultTextField id='lastName' label='Last Name' variant='standard' onChange={handleInputChange}/>
-            <DefaultTextField id='email' label='Email' variant='standard' onChange={handleInputChange} />
-            <DefaultTextField id='username' label='Username' variant='standard' onChange={handleInputChange} />
-            <DefaultTextField id='password' label='Password' variant='standard' onChange={handleInputChange} type='password'/>
-            <DefaultTextField id='confirmPassword' label='Confirm Password' variant='standard' onChange={handleInputChange} type='password'/>
-            <DefaultButton label='Sign Up' onClick={submitLogin}/>
-            <DefaultButton label=' Back to Log In' onClick={navToLogin}/>
+            <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100vh',
+                flexDirection:'column' }}>
+            <Typography sx={{p:3}}variant="h3">Sign Up</Typography>
+            <Box sx={{p:3, display: 'flex', flexDirection:'column', gap: 1,}}>
 
+            <DefaultTextField id='firstName' label='First Name' variant='outlined' onChange={handleInputChange} />
+            <DefaultTextField id='lastName' label='Last Name' variant='outlined' onChange={handleInputChange}/>
+            <DefaultTextField id='email' label='Email' variant='outlined' onChange={handleInputChange} />
+            <DefaultTextField id='username' label='Username' variant='outlined' onChange={handleInputChange} />
+            <DefaultTextField id='password' label='Password' variant='outlined' onChange={handleInputChange} type='password'/>
+            <DefaultTextField id='confirmPassword' label='Confirm Password' variant='outlined' onChange={handleInputChange} type='password'/>
+            <DefaultButton label='Sign Up' onClick={submitLogin}/>
+            </Box>
+            <Link href="http://localhost:3006/" variant="body2" sx={{p:2}}>
+                  {"Login"}
+                </Link>
+            </Box>
         </div>
         );
     
