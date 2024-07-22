@@ -17,6 +17,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
+import Tooltip from '@mui/material/Tooltip';
 
 
 interface NoteComponent{
@@ -102,14 +103,17 @@ const NoteComponent: React.FC<NoteComponent> = ({noteId, note_content}) =>{
           value={note}
         />
         <Box sx={{display: 'flex', gap:2,}}>
-      
-        <IconButton aria-label="update" size="medium" onClick={modifyNote} color="primary">
-        <UpgradeIcon fontSize="inherit" />
+        <Tooltip title="Update">
+        <IconButton aria-label="update" size="medium" onClick={modifyNote} sx={{ color: 'green' }}>
+        <UpgradeIcon sx={{ fontSize: 30 }}  />
+        </IconButton>
+
+        </Tooltip>
+       <Tooltip title="Delete">
+      <IconButton aria-label="delete" size="medium" onClick={deleteNote} sx={{ color: 'red' }}>
+        <DeleteIcon sx={{ fontSize: 30 }} />
       </IconButton>
-       
-        <IconButton aria-label="delete" size="medium" onClick={deleteNote} color="primary">
-        <DeleteIcon fontSize="inherit" />
-      </IconButton>
+    </Tooltip>
         </Box>
       <Divider />
       </Box>
