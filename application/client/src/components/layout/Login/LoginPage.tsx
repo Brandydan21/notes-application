@@ -86,9 +86,9 @@ const LoginPage: React.FC = () => {
             
                     <Typography sx={{p:3}}variant="h3">Notes</Typography>
                     <Box sx={{p:3, display: 'flex', flexDirection:'column', gap: 1,}}>
-                    <DefaultTextField id='email_username' label='Email or Username' variant='outlined' onChange={handleInputChange}/>
+                    <DefaultTextField id='email_username' label='Email or Username' variant='outlined' onChange={handleInputChange} value={formData.email_username}/>
 
-                    <DefaultTextField id='password' label='Password' variant='outlined' onChange={handleInputChange} type='password'/>
+                    <DefaultTextField id='password' label='Password' variant='outlined' onChange={handleInputChange} type='password' value={formData.password}/>
         
                     <DefaultButton label='Log In' onClick={submitLogin}/>
                 </Box>

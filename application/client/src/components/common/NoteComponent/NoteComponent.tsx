@@ -14,7 +14,8 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
-
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 
 
@@ -94,23 +95,21 @@ const NoteComponent: React.FC<NoteComponent> = ({noteId, note_content}) =>{
       >
         <TextField
           id={noteId.toString()}
-          label={note}
           variant='outlined'
           onChange={handleNoteChange}
           multiline
           rows={9}
+          value={note}
         />
         <Box sx={{display: 'flex', gap:2,}}>
-        <DefaultButton
-          label='Update'
-          onClick={modifyNote}
-          // Make the button expand to fill available space
-        />
-        <DefaultButton
-          label='Delete'
-          onClick={deleteNote}
-        // Make the button expand to fill available space
-        />
+      
+        <IconButton aria-label="update" size="medium" onClick={modifyNote} color="primary">
+        <UpgradeIcon fontSize="inherit" />
+      </IconButton>
+       
+        <IconButton aria-label="delete" size="medium" onClick={deleteNote} color="primary">
+        <DeleteIcon fontSize="inherit" />
+      </IconButton>
         </Box>
       <Divider />
       </Box>

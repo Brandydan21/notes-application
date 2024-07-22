@@ -32,11 +32,11 @@ const SignUpPage: React.FC = () => {
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = event.target;
         setFormData(prevState => {
-
            return {...prevState,[id]: value}
         });
     };
 
+    
 
     const submitLogin  = () =>{
         for (const key in formData) {
@@ -50,12 +50,13 @@ const SignUpPage: React.FC = () => {
         }
         
         if (formData.confirmPassword !== formData.password){
-            alert("Passwords are not the same");
             setFormData(prevState => ({
                 ...prevState,
                 password: '',
                 confirmPassword: ''
             }));
+            alert("Passwords are not the same");
+            
         }
         else{
             const signUpData: SignUpData = {"first_name":formData.firstName,"last_name":formData.lastName, "username":formData.username, "email":formData.email,"password":formData.password}
@@ -95,12 +96,12 @@ const SignUpPage: React.FC = () => {
             <Typography sx={{p:3}}variant="h3">Sign Up</Typography>
             <Box sx={{p:3, display: 'flex', flexDirection:'column', gap: 1,}}>
 
-            <DefaultTextField id='firstName' label='First Name' variant='outlined' onChange={handleInputChange} />
-            <DefaultTextField id='lastName' label='Last Name' variant='outlined' onChange={handleInputChange}/>
-            <DefaultTextField id='email' label='Email' variant='outlined' onChange={handleInputChange} />
-            <DefaultTextField id='username' label='Username' variant='outlined' onChange={handleInputChange} />
-            <DefaultTextField id='password' label='Password' variant='outlined' onChange={handleInputChange} type='password'/>
-            <DefaultTextField id='confirmPassword' label='Confirm Password' variant='outlined' onChange={handleInputChange} type='password'/>
+            <DefaultTextField id='firstName' label='First Name' variant='outlined' onChange={handleInputChange} value={formData.firstName} />
+            <DefaultTextField id='lastName' label='Last Name' variant='outlined' onChange={handleInputChange} value={formData.lastName}/>
+            <DefaultTextField id='email' label='Email' variant='outlined' onChange={handleInputChange}  value={formData.email}/>
+            <DefaultTextField id='username' label='Username' variant='outlined' onChange={handleInputChange}  value={formData.username}/>
+            <DefaultTextField id='password' label='Password' variant='outlined' onChange={handleInputChange}  type='password' value={formData.password}/>
+            <DefaultTextField id='confirmPassword' label='Confirm Password' variant='outlined' onChange={handleInputChange} type='password' value={formData.confirmPassword} />
             <DefaultButton label='Sign Up' onClick={submitLogin}/>
             </Box>
             <Link href="http://localhost:3006/" variant="body2" sx={{p:2}}>

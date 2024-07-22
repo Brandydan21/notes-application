@@ -55,11 +55,12 @@ const Contents: React.FC = () =>{
           ) : (
             <div>
              <Box sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width:'100vh',
-                flexDirection:'column' }}>
+                p: 3, 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: 1, 
+                justifyContent: 'center', 
+                alignItems: 'center' }}>
               {notes.map(note => (
                 <Box  sx={{p:3, display: 'flex', flexDirection:'column', gap: 1}}>
                 <NoteComponent key= {note.id} noteId={note.id}  note_content={note.content}/>

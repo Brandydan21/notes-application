@@ -9,6 +9,17 @@ import Contents from '../../layout/Contents/Contents';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Avatar from '@mui/material/Avatar';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import UserButton from '../../common/UserButton/UserButton';
+
+
+
+
 const HomePage: React.FC = () => {
 
   const {user, signOut } = useAuth();
@@ -59,12 +70,50 @@ if(user !== null){
 
   return(
       <div>
-          <p>name: {user.first_name} username:{user.username}</p>
-          <DefaultTextField id="note" label='Note Contents' onChange={handleInputChange} ></DefaultTextField>
-          <DefaultButton label='Add Note' onClick={submitNote}/><br/>
-          <DefaultButton label='log out' onClick={logout}/>
+      <Grid container justifyContent="flex-end">
+      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', p:3}}>
+        <UserButton user={user} logout={logout}></UserButton>
+      </Box>
+       
+        </Grid>
+        <Grid container  justifyContent="center" alignItems="center">
+        <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', p:2 }}>
+          <Typography>New Note</Typography>
+        </Box>
+        </Grid>
+        <Grid container  justifyContent="center" alignItems="center">
+        <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '800px',  // Set the desired width
+          gap: 1, p:1 // Add spacing between items
+        }}
+      >
+        <TextField
+          id="note"
+          label="Note Contents"
+          variant='outlined'
+          onChange={handleInputChange}
+          multiline
+          rows={7}
+        /></Box>
+        </Grid>
+        <Grid container  justifyContent="center" alignItems="center">
+        <Box sx ={{display: 'flex',
+          flexDirection: 'column',
+          width: '785px',  // Set the desired width
+          gap: 1}}>
+        <DefaultButton label='Add Note' onClick={submitNote}/><br/>
+        </Box>
+        </Grid>
+
+          <br/><br/>
+          <Divider sx={{ borderBottomWidth: '3px' }} />
+          
           <Contents></Contents>
       </div>
+      
 
   );
 }else{
