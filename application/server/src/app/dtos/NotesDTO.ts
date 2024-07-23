@@ -1,6 +1,7 @@
 interface AddNoteDTO{
     userId:string;    
     note_content:string;
+    file: Express.Multer.File | null
     
 }
 interface AuthReqDTO{

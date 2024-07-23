@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AddNoteDTO, FetchNoteDTO, UpdateNoteDTO, DeleteNoteDTO } from "../dtos/NotesDTO";
 import { Note } from "../database";
+import {Image} from "../database";
 
 
 const add_note = async(req: Request<{},{},AddNoteDTO>, res: Response) =>{
@@ -8,7 +9,19 @@ const add_note = async(req: Request<{},{},AddNoteDTO>, res: Response) =>{
         const new_note: AddNoteDTO = req.body;
         const {userId, note_content} = new_note;
         const newNote: Note = await Note.create({userId:userId, content:note_content});
-        res.status(201).json({note:newNote});
+
+        if(req.file){
+            const newImage = await Image.create({
+                path: `/uploads/${req.file.filename}`,
+                userId: newNote.userId,
+                noteId: newNote.id
+            });
+            
+            res.status(201).json({note:newNote, image:newImage});
+
+        }else{
+            res.status(201).json({note:newNote});
+        }
 
     }catch{
         res.status(500).json({ error: "Internal server error"});

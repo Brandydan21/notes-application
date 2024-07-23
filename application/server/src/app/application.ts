@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import {sequelize} from './database';
 import {userRouter, testRouter, noteRoute} from './routes'
 import cors from "cors";
+import multer from 'multer';
 
 dotenv.config()
 
@@ -16,6 +17,7 @@ function sync_db(): void{
         console.error('Unable to synchronize the database:', err);
     });
 }
+
 
 function create_routes(app: Express){
     app.use("/",testRouter);
