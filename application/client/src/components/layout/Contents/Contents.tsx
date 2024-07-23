@@ -6,6 +6,8 @@ import { content, contentData } from "../../../types";
 import { DefaultButton } from "../../common/Button";
 import NoteComponent from "../../common/NoteComponent/NoteComponent";
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
 
 const Contents: React.FC = () =>{
     
@@ -51,7 +53,8 @@ const Contents: React.FC = () =>{
     return (
         <div>
            {notes.length === 0 ? (
-            <p>No notes</p>
+            <Box>
+            </Box>
           ) : (
             <div>
              <Box sx={{
@@ -62,7 +65,7 @@ const Contents: React.FC = () =>{
                 justifyContent: 'center', 
                 alignItems: 'center' }}>
               {notes.map(note => (
-                <Box  sx={{p:3, display: 'flex', flexDirection:'column', gap: 1}}>
+                <Box key={note.id} sx={{p:3, display: 'flex', flexDirection:'column', gap: 1}}>
                 <NoteComponent key= {note.id} noteId={note.id}  note_content={note.content}/>
                 </Box>
               ))}

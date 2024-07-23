@@ -16,6 +16,7 @@ import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import UserButton from '../../common/UserButton/UserButton';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 
 
@@ -97,7 +98,10 @@ if(user !== null){
           onChange={handleInputChange}
           multiline
           rows={7}
-        /></Box>
+        />
+       
+       
+        </Box>
         </Grid>
         <Grid container  justifyContent="center" alignItems="center">
         <Box sx ={{display: 'flex',

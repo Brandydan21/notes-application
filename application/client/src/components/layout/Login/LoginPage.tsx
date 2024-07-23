@@ -32,7 +32,7 @@ const LoginPage: React.FC = () => {
         for (const key in formData) {
             if (formData.hasOwnProperty(key)) {
                 if (formData[key as keyof typeof formData].trim() === "") {
-                    alert(`${key} cannot be empty`);
+                    alert(`Fields can not be empty`);
                     return;
                 }
             

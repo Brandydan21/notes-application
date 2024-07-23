@@ -21,7 +21,6 @@ const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
           axios.get(`http://localhost:3000/user/refresh/${userId}`,headers)
           .then((response: AxiosResponse<User> )=> {
             const user: User = response.data;
-            console.log(user)
             signIn(user);
         }).catch(()=>{
           alert("Token has expired");
