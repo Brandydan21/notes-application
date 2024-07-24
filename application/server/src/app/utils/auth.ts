@@ -21,10 +21,10 @@ const generate_token = (user: User): string =>{
 }
 
 const authenticate_token = (req:Request<{userId:string, noteId:string}>, res: Response, next: NextFunction) => {
+    
     const authHeader = req.headers['authorization'];
     const current_userId = req.params.userId || req.body.userId;
     
-
     if(authHeader === undefined){
         return res.status(403).send({ message: 'No token provided!' });
     }

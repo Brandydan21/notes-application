@@ -1,7 +1,7 @@
 interface AddNoteDTO{
     userId:string;    
     note_content:string;
-    file: Express.Multer.File | null
+    image: Express.Multer.File | null
     
 }
 interface AuthReqDTO{
@@ -9,6 +9,9 @@ interface AuthReqDTO{
 
 }
 interface FetchNoteDTO{
+    userId:string;
+}
+interface FetchImageDTO{
     userId:string;
 }
 
@@ -23,4 +26,4 @@ interface DeleteNoteDTO{
     noteId: string;
 }
 
-export {AddNoteDTO,FetchNoteDTO,AuthReqDTO,UpdateNoteDTO, DeleteNoteDTO};
+export {AddNoteDTO,FetchNoteDTO,AuthReqDTO,UpdateNoteDTO, DeleteNoteDTO,FetchImageDTO};

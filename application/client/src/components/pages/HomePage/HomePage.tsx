@@ -23,11 +23,15 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 const HomePage: React.FC = () => {
 
+
   const {user, signOut } = useAuth();
   
   const [noteData, SetNoteData] = useState({
     note:''
   });
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
@@ -37,6 +41,13 @@ const HomePage: React.FC = () => {
     });
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+        setSelectedFile(event.target.files[0]);
+    }
+};
+
+
   const logout = () =>{
     signOut();
   }
@@ -45,9 +56,16 @@ const HomePage: React.FC = () => {
     if(user!== null){
       const{ userId,email,first_name,last_name,username,token } = user;
       if (noteData.note !== ''){
-        const new_note = {userId:userId, note_content:noteData.note};
+
+        const formData = new FormData();
+        formData.append('note_content', noteData.note);
+        formData.append('userId', userId);
+        if(selectedFile){
+          formData.append('image', selectedFile);
+        }
+
         const headers = {headers:{'Authorization': `Bearer ${token}`}};
-        axios.post('http://localhost:3000/note/add-note',new_note,headers)
+        axios.post(`http://localhost:3000/note/add-note/${userId}`,formData,headers)
         .then(()=>{
           window.location.reload();
           alert('success')
@@ -71,6 +89,7 @@ if(user !== null){
 
   return(
       <div>
+         
       <Grid container justifyContent="flex-end">
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center', p:3}}>
         <UserButton user={user} logout={logout}></UserButton>
@@ -99,7 +118,9 @@ if(user !== null){
           multiline
           rows={7}
         />
-       
+        <div>
+        <input type="file" id="image" name="image" onChange={handleFileChange}/>
+        </div>
        
         </Box>
         </Grid>
@@ -127,7 +148,6 @@ if(user !== null){
         <Box>
           <LoginPage></LoginPage>
         </Box>
-        
         </Container>
       </div>
       );

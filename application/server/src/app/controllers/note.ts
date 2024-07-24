@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
-import { AddNoteDTO, FetchNoteDTO, UpdateNoteDTO, DeleteNoteDTO } from "../dtos/NotesDTO";
+import { AddNoteDTO, FetchNoteDTO, UpdateNoteDTO, DeleteNoteDTO, FetchImageDTO } from "../dtos/NotesDTO";
 import { Note } from "../database";
 import {Image} from "../database";
 
 
-const add_note = async(req: Request<{},{},AddNoteDTO>, res: Response) =>{
+const add_note = async(req: Request<{userId:string},{},AddNoteDTO>, res: Response) =>{
     try{
+       
+        const user = req.params.userId;
         const new_note: AddNoteDTO = req.body;
-        const {userId, note_content} = new_note;
-        const newNote: Note = await Note.create({userId:userId, content:note_content});
+        const {note_content} = new_note;
+        const newNote: Note = await Note.create({userId:user, content:note_content});
 
         if(req.file){
             const newImage = await Image.create({
@@ -23,8 +25,8 @@ const add_note = async(req: Request<{},{},AddNoteDTO>, res: Response) =>{
             res.status(201).json({note:newNote});
         }
 
-    }catch{
-        res.status(500).json({ error: "Internal server error"});
+    }catch(err){
+        res.status(500).json({ error:err});
     }
     
     
@@ -47,6 +49,40 @@ const fetch_all_notes = async (req: Request<{userId:string},{},FetchNoteDTO>, re
     }
    
 }
+
+const fetch_all_images = async(req: Request<{userId:string},{},FetchNoteDTO>, res: Response)  =>{
+    try{
+        const userId = req.params.userId;
+        const allImages = await Image.findAll({
+        where:{
+            userId:userId
+        }});
+
+        res.status(200).json({images:allImages});
+    }catch{
+
+        res.status(500).json({ error: "Internal server error"});
+    }
+}
+
+const fetch_image = async(req: Request<{noteId:string},{},FetchImageDTO>, res: Response)  =>{
+    try{
+        const noteId = req.params.noteId;
+        const image = await Image.findAll({
+        where:{
+            noteID:noteId
+        }});
+        if(image){  
+            res.send({ path: image });
+        }else{
+            res.status(404).send('Image not found');
+        }
+    }catch{
+
+        res.status(500).json({ error: "Internal server error"});
+    }
+}
+    
 
 const update_note = async (req: Request<{},{},UpdateNoteDTO>, res:Response) =>{
     try{
@@ -102,4 +138,4 @@ const delete_note = async (req: Request<{noteId:string,userId:string},{},DeleteN
     
 }
 
-export {add_note,fetch_all_notes,update_note, delete_note};
+export {add_note,fetch_all_notes,update_note, delete_note,fetch_all_images,fetch_image};

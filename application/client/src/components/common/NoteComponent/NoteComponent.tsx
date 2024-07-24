@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import Box from '@mui/material/Box';
 
 import Button from '@mui/material/Button';
@@ -18,17 +18,24 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import Tooltip from '@mui/material/Tooltip';
-
+import Link from '@mui/material/Link';
 
 interface NoteComponent{
     noteId:string | number;
     note_content:string;
 }
 
+
+
 const NoteComponent: React.FC<NoteComponent> = ({noteId, note_content}) =>{
     const[note,updateNote]= useState(note_content);
     const {user, signOut} = useAuth();
+    const [imagePaths, setImagePaths] = useState<{ id: number, path: string, userId: number, noteId: number }[]>([]);
 
+    useEffect(() => {
+      image_links();
+    }, []);
+    
 
     const logout = () =>{
         signOut();
@@ -36,8 +43,26 @@ const NoteComponent: React.FC<NoteComponent> = ({noteId, note_content}) =>{
         
     const handleNoteChange = (event: React.ChangeEvent<HTMLInputElement>) =>{
         updateNote(event.target.value);
-    }; 
+    };
 
+    const image_links = async () =>{
+      try{
+        if(user!== null){
+          const{ userId,token } = user;
+          const headers = {headers:{'Authorization': `Bearer ${token}`}};
+          const response = await axios.get(`http://localhost:3000/note/images/${noteId}/${userId}`,headers)
+          setImagePaths(response.data.path);
+
+        }else{
+          logout();
+
+        }
+      }catch{
+        logout()
+          window.location.reload();
+      }
+    }
+    
     const modifyNote = async () =>{
         if(user!== null){
             const{ userId,token } = user;
@@ -83,8 +108,11 @@ const NoteComponent: React.FC<NoteComponent> = ({noteId, note_content}) =>{
             window.location.reload();
           }
     }
+    
+    const links = image_links();
 
     return(
+        
         <Box
         sx={{
           display: 'flex',
@@ -93,7 +121,9 @@ const NoteComponent: React.FC<NoteComponent> = ({noteId, note_content}) =>{
           width: '800px',  // Set the desired width
           gap: 1, // Add spacing between items
         }}
+        
       >
+       
         <TextField
           id={noteId.toString()}
           variant='outlined'
@@ -102,12 +132,31 @@ const NoteComponent: React.FC<NoteComponent> = ({noteId, note_content}) =>{
           rows={9}
           value={note}
         />
+        
+        {imagePaths.length === 0 ? (
+                <Typography>No attached file</Typography>
+            ) : (
+                <div>
+                    {imagePaths.map(image => (
+                        <Link
+                            key={image.id}
+                            href={`http://localhost:3000${image.path}`}
+                            variant="body2"
+                            sx={{ p: 2 }}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Attached file
+                        </Link>
+                    ))}
+                </div>
+            )} 
+       
         <Box sx={{display: 'flex', gap:2,}}>
         <Tooltip title="Update">
         <IconButton aria-label="update" size="medium" onClick={modifyNote} sx={{ color: 'green' }}>
         <UpgradeIcon sx={{ fontSize: 30 }}  />
         </IconButton>
-
         </Tooltip>
        <Tooltip title="Delete">
       <IconButton aria-label="delete" size="medium" onClick={deleteNote} sx={{ color: 'red' }}>
