@@ -343,3 +343,30 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 ```
 To access our files we create a route to serve our static files which will be `http://localhost:3000/uploads/{file_name}`. The express.static function will serve the static file based on file_name which is stored in the upload directory.
 
+# Client / Frontend 
+For the frontend of the notes application, we are using React.js framework with MUI to create our styled components.
+
+## Application state
+The notes app uses a context which stores information on the application's current state as well as contains functions to log users in, log users out and will refresh the current JWT Token if a user is logged in everytime a page is rendered / refreshed.
+
+The application has 2 states: logged in and logged out. Logged means the user a valid user has been returned and stored. Logged out means a valid user has not been returned and stored in our context.
+## Routes
+
+### Homepage: http://localhost:3006/
+- The homepage will render a login form if a user is not logged in. If a user is logged in then it will display the current notes the user has created and a text field to create a new note.
+
+### Sign-up: http://localhost:3006/sign-up
+- This page will render a sign-up form if a user is not logged in. If a user is logged in it we redirect the the home page.
+
+## Features:
+
+1. User account creation and login to seperate user data.
+2. Creation of persistant notes data under a user account.
+3. Attachment of files to notes under a user account.
+
+## Stack:
+- Frontend: React, Typescript
+- Styling: SCSS
+- State Management: Context API
+- Build Tool: Webpack used to bundling and building the React application
+- HTTP Client: Axios 
