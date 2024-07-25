@@ -4,8 +4,56 @@
 This is a notes application built using Node.js and Express.js for the backend, React.js for the frontend and MySQL for the database.
 
 This application allows users to create accounts and with their user accounts create, update, read and delete notes. They can also attach files to their notes. 
+# Set-up
+## Server Set-up (DEV)
+```
+$ mkdir notes-application
+$ cd notes-application 
+```
+Create a directory for the repository
+```
+$ git clone https://github.com/Brandydan21/notes-application.git
+```
+Clone the the repository
 
+```
+$ cd application 
+$ cd server
+```
+Change to server directory 
+```
+$ npm install
+```
+Install all the dependencies required to run start the application
+```
+$   echo 'DATABASE_NAME="notesdb"
+    DATABASE_USERNAME={your_database_username}
+    DATABASE_PASSWORD={your_database_password}
+    HOST="localhost"
+    SYNC_DB="TRUE"
+    SECRET_KEY={your_secret_key} > .env
 
+```
+Before creating a .env file, make sure you have MySQL set up with a database named notesdb, then add appropriate fields to the environment variables. For first time starting the application make sure SYNC_DB is TRUE to sync the database schema / tables to your database. Then change it to FALSE after. 
+```
+$ npm run start:dev
+```
+Start the server in development 
+
+## Client / frontend Set-up (DEV)
+```
+$ cd application 
+$ cd client
+```
+Change to client directory
+```
+$ npm install 
+```
+Install all required dependencies 
+```
+$ npm run start 
+```
+Start the client-side application in development 
 # Server
 
 For the backend of this application Express.js is used to handle API requests and we are using JWT for authentication of users.
