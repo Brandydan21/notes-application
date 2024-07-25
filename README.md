@@ -346,10 +346,21 @@ To access our files we create a route to serve our static files which will be `h
 # Client / Frontend 
 For the frontend of the notes application, we are using React.js framework with MUI to create our styled components.
 
+## Features:
+
+1. User account creation and login to seperate user data.
+2. Creation of persistant notes data under a user account.
+3. Attach
+
 ## Application state
 The notes app uses a context which stores information on the application's current state as well as contains functions to log users in, log users out and will refresh the current JWT Token if a user is logged in everytime a page is rendered / refreshed.
 
 The application has 2 states: logged in and logged out. Logged means the user a valid user has been returned and stored. Logged out means a valid user has not been returned and stored in our context.
+
+The auth context has 2 functions to clear and set the state of the app, the login function will set the state of the app to logged in by setting a user object as the current state, whereas the logout function will clear the state to null, and set the state to logged out. 
+
+The refreshing of JWT Token occurs when the state is logged in and is done through a useEffect hook, which will be invoked everytime the page re-renders sending a request to the server to check the validity of the current token and returning a new token if the current token is valid, otherwise, logging the user out.
+
 ## Routes
 
 ### Homepage: http://localhost:3006/
@@ -357,12 +368,7 @@ The application has 2 states: logged in and logged out. Logged means the user a 
 
 ### Sign-up: http://localhost:3006/sign-up
 - This page will render a sign-up form if a user is not logged in. If a user is logged in it we redirect the the home page.
-
-## Features:
-
-1. User account creation and login to seperate user data.
-2. Creation of persistant notes data under a user account.
-3. Attachment of files to notes under a user account.
+ment of files to notes under a user account.
 
 ## Stack:
 - Frontend: React, Typescript
@@ -370,3 +376,4 @@ The application has 2 states: logged in and logged out. Logged means the user a 
 - State Management: Context API
 - Build Tool: Webpack used to bundling and building the React application
 - HTTP Client: Axios 
+- Other Frameworks: MUI 
