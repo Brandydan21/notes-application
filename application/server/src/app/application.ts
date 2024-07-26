@@ -10,7 +10,7 @@ dotenv.config()
 
 function sync_db(): void{
     
-    const force: boolean = process.env.SYNC_DB?.toUpperCase() === "TRUE";
+    const force: boolean = process.env.SYNC_DB_FORCE?.toUpperCase() === "TRUE";
 
     sequelize.sync({ force: force }).then(() => {
         console.log('Database synchronized');
@@ -36,8 +36,10 @@ export function create_app(): Express{
     const PORT: number = port_string ? parseInt(port_string, 10) : 3000;
 
     app.set('port', PORT);
-
-    sync_db();
+    if(process.env.SYNC_DB?.toUpperCase() === "TRUE"){
+        sync_db();
+    }
+    
     //parsing middleware
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));

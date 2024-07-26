@@ -54,6 +54,60 @@ Install all required dependencies
 $ npm run start 
 ```
 Start the client-side application in development 
+
+## Containerisation Set-up
+
+To set-up the application as containers, ensure you have podman is installed and running.
+
+The application's server application, client application and database are seperated into 3 seperate containers contained inside a podman pod.
+
+To set this up there are 3 shell scripts that must be ran to create the pod, the database container, client application container and the server application container.
+```
+$ mkdir notes-application
+$ cd notes-application 
+```
+Create a directory for the repository
+
+```
+$ git clone https://github.com/Brandydan21/notes-application.git
+$ cd application 
+```
+Clone the repository and change to application directory
+
+```
+$ sh set_up_pod_and_db.sh 
+```
+Run the shell script. This shell script will create the pod and the database container. Wait for the prompt indicating that the database container running before continuing.
+
+```
+$ cd server
+$ sh set_up_server.sh
+```
+Change to server directory then run the shell script. This shell script will create the server application container inside of our pod. Wait for the prompt indicating the container is running before continuing.
+```
+$ cd ..
+$ cd client 
+$ sh set_up_frontend.sh
+```
+Go back a directory, change to client directory then run the shell script. This script will create the client side application inside of our pod.
+
+## Accessing the application
+### Client side application / Frontend  
+```
+http://localhost:3006/
+```
+The client side application is listening on port 3006 and can be accessed with the above address.
+
+```
+http://localhost:3000/
+```
+The server side application is listening on port 3000 and can be accessed with the above address.
+
+```
+http://localhost:3306/
+```
+The Database is listening on port 3306 and can be accessed with the address above.
+
 # Server
 
 For the backend of this application Express.js is used to handle API requests and we are using JWT for authentication of users.
